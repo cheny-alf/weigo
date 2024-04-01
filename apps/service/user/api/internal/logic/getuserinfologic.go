@@ -2,7 +2,9 @@ package logic
 
 import (
 	"context"
+
 	"github.com/zeromicro/go-zero/core/logx"
+
 	"wego/apps/service/user/api/internal/svc"
 	"wego/apps/service/user/api/internal/types"
 	"wego/apps/service/user/model/dao"

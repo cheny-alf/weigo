@@ -1,8 +1,10 @@
 package handler
 
 import (
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
+
+	"github.com/zeromicro/go-zero/rest/httpx"
+
 	"wego/apps/service/user/api/internal/logic"
 	"wego/apps/service/user/api/internal/svc"
 	"wego/apps/service/user/api/internal/types"
