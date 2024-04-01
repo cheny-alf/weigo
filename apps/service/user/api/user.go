@@ -4,10 +4,12 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"log"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
-	"log"
+
 	"wego/apps/service/user/api/internal/config"
 	"wego/apps/service/user/api/internal/handler"
 	"wego/apps/service/user/api/internal/svc"
@@ -40,7 +42,7 @@ func initDb() *ent.Client {
 	if err != nil {
 		log.Fatalf("failed connecting to mysql: %v", err)
 	}
-	//defer client.Close()
+	// defer client.Close()
 	ctx := context.Background()
 	// Run migration.
 	err = client.Schema.Create(
