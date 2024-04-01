@@ -1,0 +1,75 @@
+syntax = "v1"
+
+type commonResp {
+	Code int32  `json:"code"`
+	Msg  string `json:"msg"`
+}
+
+type (
+	GetUserInfoReq {
+		UserID int `form:"userid"`
+	}
+	GetUserInfoResp {
+		commonResp
+		NickName      string `json:"nickName"`
+		RealName      string `json:"realName"`
+		Email         string `json:"email"`
+		Tel           string `json:"tel"`
+		LastLoginTime int    `json:"lastLoginTime"`
+		LastIPAddr    string `json:"lastIPAddr"`
+	}
+)
+
+type (
+	// 定义登录接口的请求体
+	LoginReq {
+		Tel      string `form:"tel"`
+		Password string `form:"password"`
+	}
+	// 定义登录接口的响应体
+	LoginResp {
+		commonResp
+		NickName      string `json:"nickName"`
+		RealName      string `json:"realName"`
+		Tel           string `json:"tel"`
+		Email         string `json:"email"`
+		LastLoginTime int    `json:"lastLoginTime"`
+		LastIPAddr    string `json:"lastIPAddr"`
+	}
+)
+
+type (
+	RegisterReq {
+		NickName string `form:"nickName"`
+		RealName string `form:"realName"`
+		Password string `form:"password"`
+		Tel      string `form:"tel"`
+		Email    string `form:"email"`
+	}
+	RegisterResp {
+		commonResp
+		NickName      string `json:"nickName"`
+		RealName      string `json:"realName"`
+		Tel           string `json:"tel"`
+		Email         string `json:"email"`
+		LastLoginTime int64  `json:"lastLoginTime"`
+		LastIPAddr    string `json:"lastIPAddr"`
+	}
+)
+
+@server (
+	// 定义一个超时时长为 3 秒的超时配置，这里可填写为 time.Duration 的字符串形式，详情可参考
+	// https://pkg.go.dev/time#Duration.String
+	timeout: 3s
+)
+service user {
+	@handler getUserInfo
+	get /user/info (GetUserInfoReq) returns (GetUserInfoResp)
+
+	@handler login
+	post /user/login (LoginReq) returns (LoginResp)
+
+	@handler register
+	post /user/register (RegisterReq) returns (RegisterResp)
+}
+
