@@ -27,8 +27,8 @@ func NewGetUserInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserInfoLogic) GetUserInfo(ctx context.Context, req *types.GetUserInfoReq) (resp *types.GetUserInfoResp, err error) {
-	user, err := l.dao.User.GetUserByID(ctx, req.UserID)
+func (l *GetUserInfoLogic) GetUserInfo(req *types.GetUserInfoReq) (resp *types.GetUserInfoResp, err error) {
+	user, err := l.dao.User.GetUserByID(l.ctx, req.UserID)
 	if err != nil {
 		return nil, err
 	}

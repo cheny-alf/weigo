@@ -28,8 +28,8 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 	}
 }
 
-func (l *LoginLogic) Login(ctx context.Context, req *types.LoginReq) (resp *types.LoginResp, err error) {
-	user, err := l.dao.User.GetUserByTel(ctx, req.Tel)
+func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.LoginResp, err error) {
+	user, err := l.dao.User.GetUserByTel(l.ctx, req.Tel)
 	if err != nil {
 		return nil, err
 	}

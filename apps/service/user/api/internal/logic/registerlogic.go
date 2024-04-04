@@ -30,8 +30,8 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 	}
 }
 
-func (l *RegisterLogic) Register(ctx context.Context, req *types.RegisterReq) (resp *types.RegisterResp, err error) {
-	user, err := l.dao.User.CreateUser(ctx, &ent2.User{
+func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterResp, err error) {
+	user, err := l.dao.User.CreateUser(l.ctx, &ent2.User{
 		NickName: req.NickName,
 		RealName: req.RealName,
 		Email:    req.Email,
