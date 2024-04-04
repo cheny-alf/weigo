@@ -14,6 +14,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodPost,
+				Path:    "/user/follow",
+				Handler: followHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/getFollowerList",
+				Handler: getFollowerListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/getFollowingList",
+				Handler: getFollowingListHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodGet,
 				Path:    "/user/info",
 				Handler: getUserInfoHandler(serverCtx),
@@ -28,7 +43,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/user/register",
 				Handler: registerHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/unfollow",
+				Handler: unfollowHandler(serverCtx),
+			},
 		},
-		rest.WithTimeout(3000*time.Millisecond),
+		rest.WithTimeout(100000*time.Millisecond),
 	)
 }

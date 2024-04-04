@@ -57,19 +57,79 @@ type (
 	}
 )
 
+type Fan {
+	ID       int    `json:"id"`
+	UserID   int    `json:"userId"`
+	NickName string `json:"nickName"`
+}
+
+type (
+	GetFollowingListReq {
+		UserID int `form:"userid"`
+		Page   int `form:"page"`
+		Size   int `form:"size"`
+	}
+	GetFollowingListResp {
+		commonResp
+		Data []Fan `json:"data"`
+	}
+)
+
+type (
+	GetFollowerListReq {
+		UserID int `form:"userid"`
+		Page   int `form:"page"`
+		Size   int `form:"size"`
+	}
+	GetFollowerListResp {
+		commonResp
+		Data []Fan `json:"data"`
+	}
+)
+
+type (
+	FollowReq {
+		UserID          int `form:"userid"`
+		FollowingUserID int `form:"followingUserId"`
+	}
+	FollowResp {
+		commonResp
+		Data bool `json:"data"`
+	}
+)
+
 @server (
 	// 定义一个超时时长为 3 秒的超时配置，这里可填写为 time.Duration 的字符串形式，详情可参考
 	// https://pkg.go.dev/time#Duration.String
-	timeout: 3s
+	timeout: 100s
 )
 service user {
+	// 获取用户信息
 	@handler getUserInfo
 	get /user/info (GetUserInfoReq) returns (GetUserInfoResp)
 
+	// 登录
 	@handler login
 	post /user/login (LoginReq) returns (LoginResp)
 
+	// 注册
 	@handler register
 	post /user/register (RegisterReq) returns (RegisterResp)
+
+	// 获取关注列表
+	@handler getFollowingList
+	get /user/getFollowingList (GetFollowingListReq) returns (GetFollowingListResp)
+
+	// 获取粉丝列表
+	@handler getFollowerList
+	get /user/getFollowerList (GetFollowerListReq) returns (GetFollowerListResp)
+
+	// 关注某人
+	@handler follow
+	post /user/follow (FollowReq) returns (FollowResp)
+
+	// 取消关注某人
+	@handler unfollow
+	post /user/unfollow (FollowReq) returns (FollowResp)
 }
 

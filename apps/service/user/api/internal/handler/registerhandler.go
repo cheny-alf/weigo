@@ -18,7 +18,7 @@ func registerHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 		l := logic.NewRegisterLogic(r.Context(), svcCtx)
-		resp, err := l.Register(r.Context(), &req)
+		resp, err := l.Register(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

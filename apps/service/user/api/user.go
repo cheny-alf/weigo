@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"entgo.io/ent/dialect/sql"
 	"flag"
 	"fmt"
 	"log"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/zeromicro/go-zero/core/conf"
@@ -38,10 +40,16 @@ func main() {
 
 func initDb() *ent.Client {
 	var err error
-	client, err := ent.Open("mysql", "root:128568chen@tcp(localhost:3306)/mydb")
-	if err != nil {
-		log.Fatalf("failed connecting to mysql: %v", err)
-	}
+
+	drv, err := sql.Open("mysql", "root:128568chen@tcp(localhost:3306)/mydb")
+
+	// Get the underlying sql.DB object of the driver.
+	db := drv.DB()
+	db.SetMaxIdleConns(10)
+	db.SetMaxOpenConns(100)
+	db.SetConnMaxLifetime(time.Hour)
+	client := ent.NewClient(ent.Driver(drv))
+
 	// defer client.Close()
 	ctx := context.Background()
 	// Run migration.
