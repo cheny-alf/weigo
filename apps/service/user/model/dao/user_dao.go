@@ -84,3 +84,39 @@ func (d *UserDao) UpdateUser(ctx context.Context, user *ent2.User) error {
 	}
 	return nil
 }
+
+func (d *UserDao) GetFollowers(ctx context.Context, user *ent2.User) ([]*ent2.User, error) {
+	users, err := user.QueryFollowers().All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func (d *UserDao) GetFollowing(ctx context.Context, user *ent2.User) ([]*ent2.User, error) {
+	users, err := user.QueryFollowing().All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func (d *UserDao) FollowUser(ctx context.Context, userID, followingID int) error {
+	_, err := d.Client().Update().Where(
+		user.IDEQ(userID),
+	).AddFollowingIDs([]int{followingID}...).Save(ctx)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (d *UserDao) UnFollowUser(ctx context.Context, userID, followingID int) error {
+	_, err := d.Client().Update().Where(
+		user.IDEQ(userID),
+	).RemoveFollowingIDs([]int{followingID}...).Save(ctx)
+	if err != nil {
+		return err
+	}
+	return nil
+}
